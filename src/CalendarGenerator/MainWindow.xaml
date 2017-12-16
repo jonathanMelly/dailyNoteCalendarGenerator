@@ -1,0 +1,17 @@
+﻿<Window x:Class="CalendarGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarGenerator"
+        mc:Ignorable="d"
+        Title="Calendar generator" Height="276.376" Width="425.323" Closed="Window_Closed">
+    <Grid Margin="0,0,2,-20">
+        <ComboBox HorizontalAlignment="Left" Margin="206,74,0,0" VerticalAlignment="Top" Width="72" Height="21">
+            <ComboBoxItem IsSelected="True">French</ComboBoxItem>
+        </ComboBox>
+        <Label Content="Language" HorizontalAlignment="Left" Margin="138,72,0,0" VerticalAlignment="Top" Height="30" Width="107"/>
+        <Button Content="Generate" HorizontalAlignment="Left" Height="26" Margin="163,148,0,0" VerticalAlignment="Top" Width="103" Click="ButtonGenerateClick"/>
+
+    </Grid>
+</Window>

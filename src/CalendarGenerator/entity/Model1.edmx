@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="mainModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\workspace\dailyNoteCalendarGenerator\calendar.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="author" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="content" Type="blob" />
+        </EntityType>
+        <EntityType Name="language">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+        </EntityType>
+        <EntityType Name="note">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="author" Type="nvarchar" MaxLength="2147483647" />
+          <Property Name="generic_image" Type="blob" />
+        </EntityType>
+        <EntityType Name="note_text">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="note_id" Type="integer" />
+          <Property Name="language_id" Type="integer" />
+          <Property Name="content" Type="nvarchar" MaxLength="2147483647" />
+        </EntityType>
+        <Association Name="FK_note_text_0_0">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="note_text" Type="Self.note_text" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_text">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_text_1_0">
+          <End Role="language" Type="Self.language" Multiplicity="0..1" />
+          <End Role="note_text" Type="Self.note_text" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="language">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_text">
+              <PropertyRef Name="language_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mainModelStoreContainer">
+          <EntitySet Name="image" EntityType="Self.image" store:Type="Tables" />
+          <EntitySet Name="language" EntityType="Self.language" store:Type="Tables" />
+          <EntitySet Name="note" EntityType="Self.note" store:Type="Tables" />
+          <EntitySet Name="note_text" EntityType="Self.note_text" store:Type="Tables" />
+          <AssociationSet Name="FK_note_text_0_0" Association="Self.FK_note_text_0_0">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_text" EntitySet="note_text" />
+          </AssociationSet>
+          <AssociationSet Name="FK_note_text_1_0" Association="Self.FK_note_text_1_0">
+            <End Role="language" EntitySet="language" />
+            <End Role="note_text" EntitySet="note_text" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mainModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="image">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="author" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="content" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="language">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="note_text" Relationship="Self.FK_note_text_1_0" FromRole="language" ToRole="note_text" />
+        </EntityType>
+        <EntityType Name="note">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="author" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <Property Name="generic_image" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+          <NavigationProperty Name="note_text" Relationship="Self.FK_note_text_0_0" FromRole="note" ToRole="note_text" />
+        </EntityType>
+        <EntityType Name="note_text">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="note_id" Type="Int64" />
+          <Property Name="language_id" Type="Int64" />
+          <Property Name="content" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="language" Relationship="Self.FK_note_text_1_0" FromRole="note_text" ToRole="language" />
+          <NavigationProperty Name="note" Relationship="Self.FK_note_text_0_0" FromRole="note_text" ToRole="note" />
+        </EntityType>
+        <Association Name="FK_note_text_1_0">
+          <End Role="language" Type="Self.language" Multiplicity="0..1" />
+          <End Role="note_text" Type="Self.note_text" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="language">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_text">
+              <PropertyRef Name="language_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_text_0_0">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="note_text" Type="Self.note_text" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_text">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mainEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="image" EntityType="Self.image" />
+          <EntitySet Name="language" EntityType="Self.language" />
+          <EntitySet Name="note" EntityType="Self.note" />
+          <EntitySet Name="note_text" EntityType="Self.note_text" />
+          <AssociationSet Name="FK_note_text_1_0" Association="Self.FK_note_text_1_0">
+            <End Role="language" EntitySet="language" />
+            <End Role="note_text" EntitySet="note_text" />
+          </AssociationSet>
+          <AssociationSet Name="FK_note_text_0_0" Association="Self.FK_note_text_0_0">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_text" EntitySet="note_text" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mainModelStoreContainer" CdmEntityContainer="mainEntities1">
+          <EntitySetMapping Name="image">
+            <EntityTypeMapping TypeName="mainModel.image">
+              <MappingFragment StoreEntitySet="image">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="content" ColumnName="content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="language">
+            <EntityTypeMapping TypeName="mainModel.language">
+              <MappingFragment StoreEntitySet="language">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="note">
+            <EntityTypeMapping TypeName="mainModel.note">
+              <MappingFragment StoreEntitySet="note">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="generic_image" ColumnName="generic_image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="note_text">
+            <EntityTypeMapping TypeName="mainModel.note_text">
+              <MappingFragment StoreEntitySet="note_text">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="note_id" ColumnName="note_id" />
+                <ScalarProperty Name="language_id" ColumnName="language_id" />
+                <ScalarProperty Name="content" ColumnName="content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
