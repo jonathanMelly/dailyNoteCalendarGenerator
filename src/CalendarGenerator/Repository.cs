@@ -11,24 +11,56 @@ namespace CalendarGenerator
     public class Repository
     {
         private const string DB_FILE = "calendar.db";
-        private SQLiteConnection connection;
-        public void Init()
-        {
-            connection = new SQLiteConnection("Data Source=" + DB_FILE, false);
-            connection.Open();
+        private const string CONNECTION_STRING = "Data Source=" + DB_FILE;
 
-            using (entity.mainEntities1 ef = new entity.mainEntities1())
+        private string language = "fr";
+
+        public string Language { get; set; }
+
+        public void Ping()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(CONNECTION_STRING))
             {
-                ef.image.First();
+                connection.Open();
+                connection.Close();
+            }
+
+        }
+
+        public List<Note> GetNotes()
+        {
+            using (IDbConnection connection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                connection.Open();
+                using (SQLiteCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT note.author,note_text.content,note.generic_image FROM " +
+                        "note LEFT JOIN note_text ON note_text.note_id=note.id LEFT JOIN language ON note_text.language_id=language.id " +
+                        "WHERE language.name='" + language + "'";
+
+                    Enumerable enumerable = (SQLDataReader) command.ExecuteReader().
+                    foreach(IDataReader element in command.ExecuteReader().asen)
+                    {
+
+                    }
+                }
             }
         }
 
-        public void Shutdown()
+        public int ExecuteRawSQL(string sql)
         {
-            connection.Close();
+            using (IDbConnection connection = new SQLiteConnection(CONNECTION_STRING))
+            {
+                connection.Open();
+                using (IDbCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = sql;
+                    return command.ExecuteNonQuery();
+                }
+            }
         }
 
-        
+
 
     }
 }

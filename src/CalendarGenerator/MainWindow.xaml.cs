@@ -25,17 +25,12 @@ namespace CalendarGenerator
         {
             InitializeComponent();
             repository = new Repository();
-            repository.Init();
+            repository.Ping();
         }
 
         private void ButtonGenerateClick(object sender, RoutedEventArgs e)
         {
             
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            repository.Shutdown();
         }
     }
 }

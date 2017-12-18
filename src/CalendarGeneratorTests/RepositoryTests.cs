@@ -20,15 +20,23 @@ namespace CalendarGenerator.Tests
         }
 
         [TestMethod()]
-        public void InitTest()
+        public void PingTest()
+        {
+            //ACT
+            repository.Ping();
+        }
+
+        [TestMethod()]
+        public void GetNotesTest()
         {
             //ARRANGE
-
+            //repository.ExecuteRawSQL("INSTERT INTO NOTES ");
 
             //ACT
-            repository.Init();
+            List<Note> result = repository.GetNotes();
 
-           //ASSERT
+            //ASSERT
+            Assert.AreEqual(0, result.Count);
         }
     }
 }

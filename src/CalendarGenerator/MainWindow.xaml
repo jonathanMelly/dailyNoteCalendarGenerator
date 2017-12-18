@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalendarGenerator"
         mc:Ignorable="d"
-        Title="Calendar generator" Height="276.376" Width="425.323" Closed="Window_Closed">
+        Title="Calendar generator" Height="276.376" Width="425.323">
     <Grid Margin="0,0,2,-20">
         <ComboBox HorizontalAlignment="Left" Margin="206,74,0,0" VerticalAlignment="Top" Width="72" Height="21">
             <ComboBoxItem IsSelected="True">French</ComboBoxItem>
